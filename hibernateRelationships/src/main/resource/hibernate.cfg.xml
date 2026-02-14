@@ -8,7 +8,7 @@
 
         <!-- Database Connection Settings -->
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hibernate_db</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hibernate_rel</property>
         <property name="hibernate.connection.username">postgres</property>
         <property name="hibernate.connection.password">yash2004</property>
 
@@ -16,12 +16,13 @@
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
         <!-- Hibernate Behavior -->
-        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.show_sql">false</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Register Entity -->
-        <mapping class="com.cap.hibernateDemo.entity.Student"/>
+        <mapping class="com.cap.entity.Person"/>
+        <mapping class="com.cap.entity.Passport"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -53,13 +53,9 @@ public class App {
                 case 3:
                     System.out.print("Enter ID to update: ");
                     int updateId = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Enter new name: ");
-                    String newName = sc.nextLine();
-                    System.out.print("Enter new marks: ");
-                    int newMarks = sc.nextInt();
-                    updateStudent(factory, updateId, newName, newMarks);
+                    updateStudent(factory, updateId, sc);
                     break;
+
 
                 case 4:
                     System.out.print("Enter ID to delete: ");
@@ -99,25 +95,25 @@ public class App {
 
     private static void readStudent(SessionFactory factory, int id) {
 
-        Session session = factory.openSession();
+    	  Session session = factory.openSession();
 
-        try {
-            Student student = session.get(Student.class, id);
+          try {
+              Student student = session.get(Student.class, id);
 
-            if (student != null) {
-                System.out.println("ID: " + student.getId());
-                System.out.println("Name: " + student.getName());
-                System.out.println("Marks: " + student.getMarks());
-            } else {
-                System.out.println("Student not found.");
-            }
+              if (student != null) {
+                  System.out.println("ID: " + student.getId());
+                  System.out.println("Name: " + student.getName());
+                  System.out.println("Marks: " + student.getMarks());
+              } else {
+                  System.out.println("Student not found.");
+              }
 
-        } finally {
-            session.close();
-        }
+          } finally {
+              session.close();
+          }
     }
 
-    private static void updateStudent(SessionFactory factory, int id, String name, int marks) {
+    private static void updateStudent(SessionFactory factory, int id, Scanner sc) {
 
         Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
@@ -126,10 +122,38 @@ public class App {
             Student student = session.get(Student.class, id);
 
             if (student != null) {
-                student.setName(name);
-                student.setMarks(marks);
-                tx.commit();
+
+                System.out.println("What do you want to update?");
+                System.out.println("1. Name");
+                System.out.println("2. Marks");
+                System.out.print("Enter choice: ");
+                int choice = sc.nextInt();
+                sc.nextLine(); 
+
+                switch (choice) {
+
+                    case 1:
+                        System.out.print("Enter new name: ");
+                        String newName = sc.nextLine();
+                        student.setName(newName);
+                        break;
+
+                    case 2:
+                        System.out.print("Enter new marks: ");
+                        int newMarks = sc.nextInt();
+                        student.setMarks(newMarks);
+                        break;
+
+                    default:
+                        System.out.println("Invalid choice.");
+                        tx.rollback();
+                        session.close();
+                        return;
+                }
+
+                tx.commit(); 
                 System.out.println("Student updated successfully.");
+
             } else {
                 System.out.println("Student not found.");
                 tx.rollback();
@@ -142,6 +166,7 @@ public class App {
             session.close();
         }
     }
+
 
     private static void deleteStudent(SessionFactory factory, int id) {
 
