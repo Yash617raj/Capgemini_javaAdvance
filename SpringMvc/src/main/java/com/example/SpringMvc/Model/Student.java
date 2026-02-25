@@ -1,5 +1,6 @@
 package com.example.SpringMvc.Model;
 
-public class Student {
 
+public class Student {
+	String name;
 }
