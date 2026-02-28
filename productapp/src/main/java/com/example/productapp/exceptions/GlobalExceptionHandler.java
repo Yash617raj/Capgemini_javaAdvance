@@ -12,4 +12,6 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage","Something went wrong: "+ex.getMessage());
         return "error-page";
     }
+
+
 }
