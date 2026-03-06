@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,9 +25,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final ModelMapper modelMapper;
 
-
     public BookDto createBook(@Valid BookDto bookDto) {
-
         Book book = modelMapper.map(bookDto,Book.class);//Dto to entity conversion
 
         Book saveBook = bookRepository.save(book);//save the book data
@@ -64,6 +64,7 @@ public class BookService {
                 .map(book -> modelMapper.map(book, BookDto.class))
                 .toList();
     }
+    @Cacheable(value = "books", key = "#page + '_' + #size + '_' + #sortBy + '_' + #direction")
     public PageResponse<BookDto>  getBooks(int page, int size, String sortBy, String direction){
         Sort sort = direction.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();

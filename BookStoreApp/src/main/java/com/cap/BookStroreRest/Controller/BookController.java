@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,6 @@ import java.util.List;
 @RequestMapping("/api/book")
 @Tag(name = "Book", description = "Book Management APIs")
 public class BookController {
-
     private final BookService bookService;
 
     public BookController(BookService bookService) {
@@ -34,11 +34,10 @@ public class BookController {
             @ApiResponse(responseCode = "201", description = "Book created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    public ResponseEntity<BookDto> createBook(
-            @RequestBody @Valid BookDto bookDto) {
+    public ResponseEntity<BookDto> createBook(@RequestBody @Valid BookDto bookDto) {
 
         BookDto createdBook = bookService.createBook(bookDto);
-        return ResponseEntity.status(201).body(createdBook);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
     }
 
     @GetMapping("/getAllBooks")
@@ -115,6 +114,7 @@ public class BookController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Books fetched successfully")
     })
+
     public ResponseEntity<PageResponse<BookDto>> getBooks(
 
             @Parameter(description = "Page number (starts from 0)")
