@@ -43,13 +43,13 @@ public class BookService {
         Book updatedBook =  bookRepository.save(existingbook);
         return modelMapper.map(updatedBook, BookDto.class);
     }
-    //update
+
     public BookDto getBookById(Long id){
         Book book  =  bookRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Book not found"));
         return modelMapper.map(book, BookDto.class);
     }
-    //delete
+
     public BookDto deleteById(Long id){
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Book not found"));

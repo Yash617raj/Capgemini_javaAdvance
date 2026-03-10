@@ -61,10 +61,7 @@ public class BookController {
             @ApiResponse(responseCode = "200", description = "Book found"),
             @ApiResponse(responseCode = "404", description = "Book not found")
     })
-    public ResponseEntity<BookDto> getBookById(
-            @Parameter(description = "ID of the book")
-            @PathVariable Long id) {
-
+    public ResponseEntity<BookDto> getBookById(@Parameter(description = "ID of the book") @PathVariable Long id) {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 

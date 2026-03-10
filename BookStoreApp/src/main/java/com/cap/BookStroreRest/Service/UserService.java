@@ -1,8 +1,6 @@
 package com.cap.BookStroreRest.Service;
 
-import com.cap.BookStroreRest.DataTransferObject.LoginRequest;
-import com.cap.BookStroreRest.DataTransferObject.PageResponse;
-import com.cap.BookStroreRest.DataTransferObject.UserDto;
+import com.cap.BookStroreRest.DataTransferObject.*;
 import com.cap.BookStroreRest.Entity.User;
 import com.cap.BookStroreRest.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import com.cap.BookStroreRest.DataTransferObject.PageResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import com.cap.BookStroreRest.Security.JwtUtil;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final JwtUtil jwtUtil;
 
     public UserDto registerUser(UserDto userDto) {
 
@@ -33,7 +33,7 @@ public class UserService {
         return modelMapper.map(savedUser, UserDto.class);
     }
 
-    public String loginUser(LoginRequest loginDto) {
+    public LoginResponse loginUser(LoginRequest loginDto) {
 
         User user = userRepository.findByEmail(loginDto.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -42,7 +42,15 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        return "Login Successful";
+        String accessToken = jwtUtil.generateAccessToken(user.getEmail());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+
+        return new LoginResponse(
+                accessToken,
+                refreshToken,
+                user.getEmail(),
+                user.getPassword()
+        );
     }
 
 

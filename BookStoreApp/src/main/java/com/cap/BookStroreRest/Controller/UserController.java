@@ -1,6 +1,7 @@
 package com.cap.BookStroreRest.Controller;
 
 import com.cap.BookStroreRest.DataTransferObject.LoginRequest;
+import com.cap.BookStroreRest.DataTransferObject.LoginResponse;
 import com.cap.BookStroreRest.DataTransferObject.PageResponse;
 import com.cap.BookStroreRest.DataTransferObject.UserDto;
 import com.cap.BookStroreRest.Service.UserService;
@@ -46,7 +47,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Login successful"),
             @ApiResponse(responseCode = "401", description = "Invalid credentials")
     })
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginDto) {
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginDto) {
         return ResponseEntity.ok(userService.loginUser(loginDto));
     }
 
