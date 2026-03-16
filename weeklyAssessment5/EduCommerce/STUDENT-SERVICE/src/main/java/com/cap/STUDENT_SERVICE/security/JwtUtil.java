@@ -15,11 +15,11 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
+//    @Value("${jwt.secret}")
+    private String secret = "mySuperSecureJWTSecretKeyForMicroserviceProject123456789";
 
-    @Value("${jwt.expiration}")
-    private long expiration;
+//    @Value("${jwt.expiration}")
+    private long expiration = 86400000;
 
     private SecretKey signingKey;
 

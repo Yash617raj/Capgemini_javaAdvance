@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/student_service_db
     username: postgres
-    password: system
+    password: yash2004
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -15,7 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
-  secret: roz98I2ldQVAly2sMZol6hD8xyZaH8sMh3ygHlVmGLR
+  secret: thisIsAVeryVerySecureJWTSecretKeyForSpringBootMicroserviceProject123456789ABCDEF
   expiration: 86400000
 
 attendance:
