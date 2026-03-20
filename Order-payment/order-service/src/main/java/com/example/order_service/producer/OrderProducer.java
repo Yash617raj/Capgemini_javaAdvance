@@ -21,5 +21,12 @@ public class OrderProducer {
         );
     }
 
-//    public void sendTo
+    public void sendToTopicExchange(OrderCreatedEvent event, String region) {
+        String routingKey = "order."+region;
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.TOPIC_EXCHANGE,
+                routingKey,
+                event
+        );
+    }
 }

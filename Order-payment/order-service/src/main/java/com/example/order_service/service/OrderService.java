@@ -33,7 +33,7 @@ public class OrderService {
         orderProducer.sendToDirectExchange(event);
 
         // publish to topic exchange - region-based routing
-//        orderProducer.sendToTopicExchange(event,dto.getRegion());
+        orderProducer.sendToTopicExchange(event,dto.getRegion());
 
         return new OrderResponseDTO(saved.getId(),"ORDER_CREATED");
     }
